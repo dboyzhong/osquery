@@ -100,7 +100,7 @@ cmake --build . -j10 # where 10 is the number of parallel build jobs
 
 ### Tests
 
-To build with tests active, add `-DBUILD_TESTING=ON` to the osquery configure phase, then build the project. CTest will be used to run the tests and give a report.
+To build with tests active, add `-DOSQUERY_BUILD_TESTS=ON` to the osquery configure phase, then build the project. CTest will be used to run the tests and give a report.
 
 **Run tests on Windows**
 
