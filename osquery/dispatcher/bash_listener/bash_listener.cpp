@@ -16,6 +16,9 @@
 #include <osquery/remote/transports/tls.h>
 #include <osquery/remote/serializers/json.h>
 #include <osquery/remote/utility.h>
+#include <osquery/config.h>
+#include <osquery/query.h>
+#include "osquery/config/parsers/decorators.h"
 namespace BL {
 
 using namespace osquery;
@@ -204,12 +207,22 @@ void DataCollector::Disable() {
 bool HttpDataCollector::PostDataTls(string data) {
 
     bool ret = true;
+    osquery::QueryLogItem item;
     std::map<string, string> datas;
     std::size_t cur_pos = 0;
     std::size_t start_pos = 0;
     std::size_t end_pos = 0;
     std::size_t pos = 0;
     int i = 0;
+
+    runDecorators(DECORATE_ALWAYS);
+    item.name = "bash_event";
+    item.identifier = getHostIdentifier();
+    item.uid = std::to_string(getUid());
+    item.epoch = 0;
+    item.calendar_time = osquery::getAsciiTime();
+    item.time = osquery::getUnixTime();
+    getDecorations(item.decorations);
 
     for(auto & key : data_keys_) {
         pos = data.find(key);
@@ -244,6 +257,18 @@ bool HttpDataCollector::PostDataTls(string data) {
 
     datas["server_ak"] = FLAGS_server_ak;
     datas["uid"] = std::to_string(uid_);
+
+    osquery::QueryData res;
+    res.push_back(datas);
+    DiffResults& diff_results = item.results;
+    diff_results.added = std::move(res);
+    osquery::Status event_status = logQueryLogItem(item);
+    if (!event_status.ok()) {
+      // If log directory is not available, then the daemon shouldn't continue.
+      std::string error = "Error logging the results of bash event: " +
+                          event_status.toString();
+      LOG(ERROR) << error;
+    }
 
     JSON params;
     params.add("node_key", getNodeKey("tls"));
@@ -284,6 +309,9 @@ void HttpDataCollector::Stop() {
 }
 
 bool UserManager::PostAuthReq() {
+
+    uid_ = 12345;
+    return true;
 
     osquery::http::Client::Options opt;
     opt.timeout(30).follow_redirects(true);
