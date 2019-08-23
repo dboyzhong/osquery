@@ -110,6 +110,8 @@ Status TLSEnrollPlugin::requestKey(const std::string& uri,
     node_key = it->value.IsString() ? it->value.GetString() : "";
   }
 
+  LOG(INFO) << "=======:" << node_key;
+
   if (node_key.empty()) {
     return Status(1, "No node key returned from TLS enroll plugin");
   }

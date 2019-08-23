@@ -199,6 +199,7 @@ QueryData genOsqueryInfo(QueryContext& context) {
   QueryData results;
 
   Row r;
+  r["uid"] = std::to_string(getUid());
   r["pid"] = INTEGER(PlatformProcess::getCurrentPid());
   r["version"] = kVersion;
 

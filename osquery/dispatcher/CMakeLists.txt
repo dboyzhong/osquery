@@ -9,7 +9,9 @@
 target_sources(libosquery
   PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/dispatcher.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/bash_listener/bash_listener.cpp"
 )
+ADD_OSQUERY_LINK_CORE("crypto ssl")
 
 ADD_OSQUERY_TEST_CORE(
   "${CMAKE_CURRENT_LIST_DIR}/tests/dispatcher_tests.cpp"
@@ -26,3 +28,5 @@ ADD_OSQUERY_LIBRARY(FALSE osquery_dispatcher_runners
 ADD_OSQUERY_TEST_ADDITIONAL(
   "${CMAKE_CURRENT_LIST_DIR}/tests/scheduler_tests.cpp"
 )
+
+

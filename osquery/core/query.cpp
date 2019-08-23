@@ -362,6 +362,7 @@ inline void addLegacyFieldsAndDecorations(const QueryLogItem& item,
   // Apply legacy fields.
   doc.addRef("name", item.name, obj);
   doc.addRef("hostIdentifier", item.identifier, obj);
+  doc.addRef("uid", item.uid, obj);
   doc.addRef("calendarTime", item.calendar_time, obj);
   doc.add("unixTime", item.time, obj);
   doc.add("epoch", static_cast<size_t>(item.epoch), obj);
@@ -394,6 +395,7 @@ inline void getLegacyFieldsAndDecorations(const JSON& doc, QueryLogItem& item) {
 
   item.name = doc.doc()["name"].GetString();
   item.identifier = doc.doc()["hostIdentifier"].GetString();
+  item.uid = doc.doc()["uid"].GetString();
   item.calendar_time = doc.doc()["calendarTime"].GetString();
   item.time = doc.doc()["unixTime"].GetUint64();
 }

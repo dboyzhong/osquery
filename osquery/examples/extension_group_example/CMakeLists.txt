@@ -1,5 +1,7 @@
 project(ext_example)
 
+ADD_OSQUERY_LINK_CORE("crypto ssl")
+
 function(main)
   set(PROJECT_SOURCEFILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/example.h"

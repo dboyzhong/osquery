@@ -347,4 +347,8 @@ bool isUserAdmin();
 Status setThreadName(const std::string& name);
 
 bool checkPlatform(const std::string& platform);
+
+void setUid(int64_t uid); 
+
+int64_t getUid();
 } // namespace osquery

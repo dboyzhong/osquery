@@ -332,6 +332,8 @@ struct QueryLogItem {
   /// The identifier (hostname, or uuid) of the host.
   std::string identifier;
 
+  std::string uid;
+
   /// The time that the query was executed, seconds as UNIX time.
   size_t time{0};
 

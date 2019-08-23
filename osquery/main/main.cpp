@@ -36,6 +36,7 @@
 #include "osquery/filesystem/fileops.h"
 #include "osquery/main/main.h"
 #include "osquery/sql/sqlite_util.h"
+#include "osquery/dispatcher/bash_listener/bash_listener.h"
 
 namespace fs = boost::filesystem;
 
@@ -101,19 +102,38 @@ int profile(int argc, char* argv[]) {
 }
 
 int startDaemon(Initializer& runner) {
-  runner.start();
 
-  // Conditionally begin the distributed query service
-  auto s = startDistributed();
-  if (!s.ok()) {
-    VLOG(1) << "Not starting the distributed query service: " << s.toString();
-  }
+  std::promise<int> pro;
+  auto fut = pro.get_future();
+  BL::BashCore core;
 
-  // Begin the schedule runloop.
-  startScheduler();
+  core.Init();
+  core.Run([&runner, &pro /*pro = std::move(pro) compile failed why? */](bool enable, int64_t uid) mutable {
+
+    if(enable) {
+      // Conditionally begin the distributed query service
+      setUid(uid);
+      runner.start();
+      auto s = startDistributed();
+      if (!s.ok()) {
+        VLOG(1) << "Not starting the distributed query service: " << s.toString();
+      }
+
+      // Begin the schedule runloop.
+      startScheduler();
+      pro.set_value(0);
+    } else {
+      LOG(INFO) << "auth disabled exit..";
+      runner.shutdown(-2);
+    }
+  });
+
+  fut.wait();
+  LOG(INFO) << "osquery init successfully";
 
   // Finally wait for a signal / interrupt to shutdown.
   runner.waitForShutdown();
+  core.WaitForShutdown();
   return 0;
 }
 

@@ -98,6 +98,8 @@ const std::vector<std::string> kPlaceholderHardwareUUIDList{
     "10000000-0000-8000-0040-000000000000",
 };
 
+static int64_t auth_uid = 0;
+
 #ifdef WIN32
 struct tm* gmtime_r(time_t* t, struct tm* result) {
   _gmtime64_s(result, t);
@@ -632,4 +634,13 @@ bool checkPlatform(const std::string& platform) {
 
   return (platform.find(osquery::kSDKPlatform) != std::string::npos);
 }
+
+void setUid(int64_t uid) {
+  auth_uid = uid;
+}
+
+int64_t getUid() {
+  return auth_uid;
+}
+
 } // namespace osquery
