@@ -1,0 +1,23 @@
+sudo ./build/linux/osquery/osqueryd \
+    --enroll_secret_path=./cert/kolide-enroll_secret \
+    --tls_server_certs=./cert/server.cert \
+    --tls_hostname=127.0.0.1:8080 \
+    --host_identifier=hostname \
+    --enroll_tls_endpoint=/api/v1/osquery/enroll \
+    --config_plugin=tls \
+    --config_tls_endpoint=/api/v1/osquery/config \
+    --config_tls_refresh=10 \
+    --disable_distributed=false \
+    --distributed_plugin=tls \
+    --distributed_interval=3 \
+    --distributed_tls_max_attempts=3 \
+    --distributed_tls_read_endpoint=/api/v1/osquery/distributed/read \
+    --distributed_tls_write_endpoint=/api/v1/osquery/distributed/write \
+    --logger_plugin=tls \
+    --logger_tls_endpoint=/api/v1/osquery/log \
+    --logger_tls_period=10 \
+    --utc  \
+    --verbose \
+    --server_ak=b4fdfb75bf91bc84a13fed450cdfbfc3 \
+    --server_sk=b3f10e035039eaa84ecf386499f6b226 \
+    --allow_unsafe
