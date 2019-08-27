@@ -246,8 +246,8 @@ bool HttpDataCollector::PostDataTls(string data) {
         return false;
     }
 
-    start_pos = data.find('[') + 1;
-    end_pos = data.find(']');
+    start_pos = data.rfind('[') + 1;
+    end_pos = data.rfind(']');
     if(start_pos == string::npos || end_pos == string::npos) {
         LOG(WARNING) << "key: [ or ] not found";
         ret = false;
