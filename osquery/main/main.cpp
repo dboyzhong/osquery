@@ -52,13 +52,13 @@ HIDDEN_FLAG(int32,
             0,
             "Sleep a number of seconds before and after the profiling");
 
-CLI_FLAG(bool, install, false, "Install osqueryd as a service");
+CLI_FLAG(bool, install, false, "Install zhiyujiad as a service");
 
-CLI_FLAG(bool, uninstall, false, "Uninstall osqueryd as a service");
+CLI_FLAG(bool, uninstall, false, "Uninstall zhiyujiad as a service");
 
 DECLARE_bool(disable_caching);
 
-const std::string kWatcherWorkerName{"osqueryd: worker"};
+const std::string kWatcherWorkerName{"zhiyujiad: worker"};
 
 int profile(int argc, char* argv[]) {
   std::string query;

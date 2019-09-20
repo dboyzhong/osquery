@@ -75,12 +75,12 @@ CLI_FLAG(string,
 CLI_FLAG(bool,
          force,
          false,
-         "Force osqueryd to kill previously-running daemons");
+         "Force zhiyujiad to kill previously-running daemons");
 
 FLAG(string,
      host_identifier,
      "hostname",
-     "Field used to identify the host running osquery (hostname, uuid, "
+     "Field used to identify the host running zhiyujia (hostname, uuid, "
      "instance, ephemeral, specified)");
 
 // Only used when host_identifier=specified

@@ -69,7 +69,7 @@ CLI_FLAG(string, config_plugin, "filesystem", "Config plugin name");
 CLI_FLAG(bool,
          config_check,
          false,
-         "Check the format of an osquery config and exit");
+         "Check the format of an zhiyujia config and exit");
 
 CLI_FLAG(bool, config_dump, false, "Dump the contents of the configuration");
 

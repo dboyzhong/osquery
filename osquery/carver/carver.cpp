@@ -59,12 +59,12 @@ CLI_FLAG(uint32,
 CLI_FLAG(bool,
          disable_carver,
          true,
-         "Disable the osquery file carver (default true)");
+         "Disable the zhiyujia file carver (default true)");
 
 CLI_FLAG(bool,
          carver_disable_function,
          FLAGS_disable_carver,
-         "Disable the osquery file carver function (default true)");
+         "Disable the zhiyujia file carver function (default true)");
 
 CLI_FLAG(bool,
          carver_compression,

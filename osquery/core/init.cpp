@@ -81,12 +81,12 @@ enum {
 #endif
 
 #define DESCRIPTION                                                            \
-  "osquery %s, your OS as a high-performance relational database\n"
-#define EPILOG "\nosquery project page <https://osquery.io>.\n"
+  "zhiyujia %s, your OS as a high-performance relational database\n"
+#define EPILOG "\nzhiyujia project page <https://zhiyujia.com>.\n"
 #define OPTIONS                                                                \
-  "\nosquery configuration options (set by config or CLI flags):\n\n"
-#define OPTIONS_SHELL "\nosquery shell-only CLI flags:\n\n"
-#define OPTIONS_CLI "osquery%s command line flags:\n\n"
+  "\nzhiyujia configuration options (set by config or CLI flags):\n\n"
+#define OPTIONS_SHELL "\nzhiyujia shell-only CLI flags:\n\n"
+#define OPTIONS_CLI "zhiyujia %s command line flags:\n\n"
 #define USAGE "Usage: %s [OPTION]... %s\n\n"
 
 namespace osquery {
@@ -274,13 +274,13 @@ Initializer::Initializer(int& argc, char**& argv, ToolType tool)
 
   // osquery can function as the daemon or shell depending on argv[0].
   if (tool == ToolType::SHELL_DAEMON) {
-    if (fs::path(argv[0]).filename().string().find("osqueryd") !=
+    if (fs::path(argv[0]).filename().string().find("zhiyujiad") !=
         std::string::npos) {
       kToolType = ToolType::DAEMON;
-      binary_ = "osqueryd";
+      binary_ = "zhiyujiad";
     } else {
       kToolType = ToolType::SHELL;
-      binary_ = "osqueryi";
+      binary_ = "zhiyujiai";
     }
   } else {
     // Set the tool type to allow runtime decisions based on daemon, shell, etc.
@@ -320,10 +320,10 @@ Initializer::Initializer(int& argc, char**& argv, ToolType tool)
     auto help = std::string((*argv_)[i]);
     if (help == "-S" || help == "--S") {
       kToolType = ToolType::SHELL;
-      binary_ = "osqueryi";
+      binary_ = "zhiyujiai";
     } else if (help == "-D" || help == "--D") {
       kToolType = ToolType::DAEMON;
-      binary_ = "osqueryd";
+      binary_ = "zhiyujiad";
     } else if ((help == "--help" || help == "-help" || help == "--h" ||
                 help == "-h") &&
                tool != ToolType::TEST) {

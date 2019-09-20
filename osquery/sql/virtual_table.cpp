@@ -29,7 +29,7 @@ FLAG(uint64,
      0,
      "Add an optional microsecond delay between table scans");
 
-SHELL_FLAG(bool, planner, false, "Enable osquery runtime planner output");
+SHELL_FLAG(bool, planner, false, "Enable zhiyujia runtime planner output");
 
 DECLARE_bool(disable_events);
 

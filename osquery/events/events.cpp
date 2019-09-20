@@ -35,7 +35,7 @@ CREATE_REGISTRY(EventSubscriberPlugin, "event_subscriber");
 /// Checkpoint interval to inspect max event buffering.
 #define EVENTS_CHECKPOINT 256
 
-FLAG(bool, disable_events, false, "Disable osquery publish/subscribe system");
+FLAG(bool, disable_events, false, "Disable zhiyujia publish/subscribe system");
 
 FLAG(bool,
      events_optimize,
