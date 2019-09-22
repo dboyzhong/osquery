@@ -107,6 +107,12 @@ private:
 };
 
 class UserManager {
+
+    enum class AUTH_STATUS {
+        SUCCESS = 0,
+        FAILED, 
+        UNKNOWN
+    }; 
 public:
     UserManager(){}
     ~UserManager(){}
@@ -118,7 +124,7 @@ public:
     }
 
 private:
-    bool PostAuthReq();
+    AUTH_STATUS PostAuthReq();
 private:
     std::promise<int> pro_;
     std::future<int> fut_;

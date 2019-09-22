@@ -36,12 +36,12 @@ FLAG(string,
 
 FLAG(string,
      auth_url,
-     "https://106.75.61.57/task/index.php?s=/Landing/userAuth",
+     "https://account.zyujia.cn/task/index.php?s=/Landing/userAuth",
      "auth url");
 
 FLAG(string,
      data_url,
-     "https://150.95.174.229:8090/api/v1/osquery/distributed/campaigns",
+     "https://150.95.174.229:8090/api/v1/zhiyujia/distributed/campaigns",
      "data url");
 
 using boost::asio::local::datagram_protocol;
@@ -308,10 +308,10 @@ void HttpDataCollector::Stop() {
     service_.stop();
 }
 
-bool UserManager::PostAuthReq() {
+UserManager::AUTH_STATUS UserManager::PostAuthReq() {
 
-    uid_ = 12345;
-    return true;
+    //uid_ = 12345;
+    //return true;
 
     osquery::http::Client::Options opt;
     opt.timeout(30).follow_redirects(true);
@@ -378,12 +378,13 @@ bool UserManager::PostAuthReq() {
             }
         }
     } catch(const std::exception &e) {
-        LOG(INFO) << "auth failed: " << e.what();
+        LOG(INFO) << "auth error: " << e.what();
+        return AUTH_STATUS::UNKNOWN;
     }
     if(auth_code == 0 && (expired_ts_ == 0 || time(NULL) < expired_ts_)) {
-        return true;
+        return AUTH_STATUS::SUCCESS;
     }
-    return false;
+    return AUTH_STATUS::FAILED;
 }
 
 void UserManager::StartAuthRoutine(std::function<void(bool enable)> cb) {
@@ -392,7 +393,7 @@ void UserManager::StartAuthRoutine(std::function<void(bool enable)> cb) {
         uint32_t count = 0;
         while(!stop_) {
             if(false == cur_state_) {
-                if((count++ % 60 == 0) && PostAuthReq()) {
+                if((count++ % 6 == 0) && (AUTH_STATUS::SUCCESS == PostAuthReq())) {
                     cur_state_ = true;
                     cb(true);
                 }
@@ -402,8 +403,12 @@ void UserManager::StartAuthRoutine(std::function<void(bool enable)> cb) {
                     cur_state_ = false;
                     cb(false);
                 }
+                if(AUTH_STATUS::FAILED == PostAuthReq()) {
+                    cur_state_ = false;
+                    cb(false);
+                }
             }
-            sleep(1);
+            sleep(10);
         }
         pro.set_value(0);
     }).detach();
