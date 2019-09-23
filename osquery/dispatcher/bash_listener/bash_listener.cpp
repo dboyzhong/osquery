@@ -403,7 +403,7 @@ void UserManager::StartAuthRoutine(std::function<void(bool enable)> cb) {
                     cur_state_ = false;
                     cb(false);
                 }
-                if(AUTH_STATUS::FAILED == PostAuthReq()) {
+                if((count++ % 360 == 0) && (AUTH_STATUS::FAILED == PostAuthReq())) {
                     cur_state_ = false;
                     cb(false);
                 }
